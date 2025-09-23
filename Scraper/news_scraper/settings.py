@@ -14,6 +14,8 @@ NEWSPIDER_MODULE = "news_scraper.spiders"
 
 ADDONS = {}
 
+SHELL = 'ipython'
+
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "news_scraper (+http://www.yourdomain.com)"
