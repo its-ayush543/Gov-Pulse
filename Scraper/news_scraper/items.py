@@ -14,3 +14,36 @@ class NewsScraperItem(scrapy.Item):
 
 
 
+
+import scrapy
+
+
+class NewsArticle(scrapy.Item):
+    # Core article information
+    url = scrapy.Field()
+    headline = scrapy.Field()
+    content = scrapy.Field()
+    summary = scrapy.Field()
+    
+    # Publication details
+    author = scrapy.Field()
+    date_published = scrapy.Field()
+    date_machine = scrapy.Field()  # Machine-readable date format
+    
+    # Media and metadata
+    image_url = scrapy.Field()
+    keywords = scrapy.Field()
+    tags = scrapy.Field()
+    
+    # Categorization
+    category = scrapy.Field()
+    subcategory = scrapy.Field()
+    source = scrapy.Field()
+    
+    # Additional metadata
+    scraped_at = scrapy.Field()  # Timestamp when scraped
+    word_count = scrapy.Field()  # Content word count
+    read_time = scrapy.Field()   # Estimated reading time
+
+
+

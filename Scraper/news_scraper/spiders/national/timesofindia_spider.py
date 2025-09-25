@@ -180,7 +180,8 @@ class TimesOfIndiaSpider(scrapy.Spider):
             'keywords': keywords.strip() if keywords else "",
             'image_url': image_url.strip() if image_url else "",
             'category': 'business',
-            'subcategory': 'india-business'
+            'subcategory': 'india-business' , 
+            'source': 'Times of India'
         }
         
         # Only yield if we have at least a headline and some content

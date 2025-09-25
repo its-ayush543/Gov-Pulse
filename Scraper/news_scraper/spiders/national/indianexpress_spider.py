@@ -247,7 +247,8 @@ class IndianExpressSpider(scrapy.Spider):
             'keywords': keywords.strip() if keywords else "",
             'image_url': image_url.strip() if image_url else "",
             'category': category,
-            'subcategory': subcategory
+            'subcategory': subcategory , 
+            'source' : 'Indian Express' 
         }
         
         # Only yield if we have at least a headline and some content
