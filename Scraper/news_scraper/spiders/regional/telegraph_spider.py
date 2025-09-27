@@ -4,6 +4,7 @@ import scrapy
 import re
 import json
 from urllib.parse import urljoin
+from news_scraper.items import NewsArticle
 
 
 class TelegraphSpider(scrapy.Spider):
@@ -193,27 +194,38 @@ class TelegraphSpider(scrapy.Spider):
             'date_published': date_published.strip() if date_published else "",
             'keywords': keywords.strip() if keywords else "",
             'image_url': image_url.strip() if image_url else "",
-            'tags': tags,
+            # 'tags': tags,
             'category': category,
             'subcategory': subcategory,
             'source': 'Telegraph India'
         }
-        
-        # Only yield if we have at least a headline and some content
-        if article_data['headline'] and (article_data['content'] or article_data['summary']):
-            # Clean headline from site name if present
-            if ' - Telegraph India' in article_data['headline']:
-                article_data['headline'] = article_data['headline'].replace(' - Telegraph India', '')
-            
-            yield article_data
-        else:
-            # Log for debugging purposes
-            self.logger.warning(f"Skipping article with insufficient data: {response.url}")
 
-    def parse_error(self, failure):
-        # Handle request failures
-        self.logger.error(f"Request failed: {failure.request.url}")
+
+        # 2. Create an instance of your NewsArticle item
+        newsArticle = NewsArticle()
+
+        # 3. Populate the item's fields from the dictionary
+        newsArticle['url'] = article_data['url']
+        newsArticle['headline'] = article_data['headline']
+        newsArticle['content'] = article_data['content']
+        newsArticle['summary'] = article_data['summary']
+        newsArticle['author'] = article_data['author']
+        newsArticle['date_published'] = article_data['date_published']
+        newsArticle['keywords'] = article_data['keywords']
+        newsArticle['image_url'] = article_data['image_url']
+        newsArticle['category'] = article_data['category']
+        newsArticle['subcategory'] = article_data['subcategory']
+        newsArticle['source'] = article_data['source']
         
-        # Log additional failure information
-        if hasattr(failure.value, 'response'):
-            self.logger.error(f"HTTP Status: {failure.value.response.status}")
+        # 4. Yield the populated item to be processed by your pipelines
+        yield newsArticle
+        
+
+
+        def parse_error(self, failure):
+            # Handle request failures
+            self.logger.error(f"Request failed: {failure.request.url}")
+            
+            # Log additional failure information
+            if hasattr(failure.value, 'response'):
+                self.logger.error(f"HTTP Status: {failure.value.response.status}")

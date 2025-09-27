@@ -49,7 +49,7 @@ import scrapy
 import re
 import json
 from urllib.parse import urljoin
-
+from news_scraper.items import NewsArticle 
 
 class TimesOfIndiaSpider(scrapy.Spider):
     
@@ -169,28 +169,28 @@ class TimesOfIndiaSpider(scrapy.Spider):
         
 
 
-        # Build the article data dictionary
-        article_data = {
-            'url': response.url,
-            'headline': headline.strip() if headline else "",
-            'content': content.strip() if content else "",
-            'summary': summary.strip() if summary else "",
-            'author': author.strip() if author else "",
-            'date_published': date_published.strip() if date_published else "",
-            'keywords': keywords.strip() if keywords else "",
-            'image_url': image_url.strip() if image_url else "",
-            'category': 'business',
-            'subcategory': 'india-business' , 
-            'source': 'Times of India'
-        }
-        
-        # Only yield if we have at least a headline and some content
-        if article_data['headline'] and (article_data['content'] or article_data['summary']):
-            yield article_data
-        else:
-            # Log for debugging purposes
-            self.logger.warning(f"Skipping article with insufficient data: {response.url}")
+        # 2. Create an instance of your NewsArticle item
+        newsArticle = NewsArticle()
 
-    def parse_error(self, failure):
-        # Handle request failures
-        self.logger.error(f"Request failed: {failure.request.url}")
+        # 3. Populate the item's fields from the dictionary
+        newsArticle['url'] = response.url
+        newsArticle['headline'] = headline
+        newsArticle['content'] = content_paragraphs
+        newsArticle['summary'] = summary
+        newsArticle['author'] = author
+        newsArticle['date_published'] = date_published
+        newsArticle['keywords'] = keywords
+        newsArticle['image_url'] = image_url
+        newsArticle['category'] = 'business' 
+        newsArticle['subcategory'] = 'india-business' 
+        newsArticle['source'] = 'Times of India'
+        
+        # 4. Yield the populated item to be processed by your pipelines
+        yield newsArticle
+
+
+
+
+        def parse_error(self, failure):
+            # Handle request failures
+            self.logger.error(f"Request failed: {failure.request.url}")

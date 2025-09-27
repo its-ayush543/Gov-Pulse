@@ -3,6 +3,7 @@ import scrapy
 import re
 import json
 from urllib.parse import urljoin
+from news_scraper.items import NewsArticle
 
 
 class NdtvSpider(scrapy.Spider):
@@ -175,14 +176,14 @@ class NdtvSpider(scrapy.Spider):
         # Build the article data dictionary
         article_data = {
             'url': response.url,
-            'headline': headline.strip() if headline else "",
-            'content': content.strip() if content else "",
-            'summary': summary.strip() if summary else "",
-            'author': author.strip() if author else "",
-            'date_published': date_published.strip() if date_published else "",
-            'keywords': keywords.strip() if keywords else "",
-            'image_url': image_url.strip() if image_url else "",
-            'tags': tags,
+            'headline': headline,
+            'content': content,
+            'summary': summary,
+            'author': author,
+            'date_published': date_published,
+            'keywords': keywords,
+            'image_url': image_url,
+            # 'tags': tags,
             'category': 'opinion',
             'subcategory': 'government',
             'source': 'NDTV'
@@ -193,11 +194,19 @@ class NdtvSpider(scrapy.Spider):
             # Clean headline from site name if present
             if ' - NDTV' in article_data['headline']:
                 article_data['headline'] = article_data['headline'].replace(' - NDTV', '')
+
+
+                newsArticle = NewsArticle(**article_data)
             
-            yield article_data
+                yield newsArticle
         else:
             # Log for debugging purposes
             self.logger.warning(f"Skipping article with insufficient data: {response.url}")
+
+
+
+
+
 
     def parse_error(self, failure):
         # Handle request failures
