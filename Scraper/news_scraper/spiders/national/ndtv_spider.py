@@ -189,22 +189,8 @@ class NdtvSpider(scrapy.Spider):
             'source': 'NDTV'
         }
         
-        # Only yield if we have at least a headline and some content
-        if article_data['headline'] and (article_data['content'] or article_data['summary']):
-            # Clean headline from site name if present
-            if ' - NDTV' in article_data['headline']:
-                article_data['headline'] = article_data['headline'].replace(' - NDTV', '')
-
-
-                newsArticle = NewsArticle(**article_data)
+        newsArticle = NewsArticle(**article_data)
             
-                yield newsArticle
-        else:
-            # Log for debugging purposes
-            self.logger.warning(f"Skipping article with insufficient data: {response.url}")
-
-
-
 
 
 

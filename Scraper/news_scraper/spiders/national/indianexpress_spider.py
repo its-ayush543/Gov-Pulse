@@ -76,6 +76,7 @@ from news_scraper.items import NewsArticle
 
 
 class IndianExpressSpider(scrapy.Spider):
+    
     name = "indianexpress-spider"
     allowed_domains = ['indianexpress.com']
     start_urls = [

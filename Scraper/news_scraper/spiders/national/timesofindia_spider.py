@@ -58,7 +58,8 @@ class TimesOfIndiaSpider(scrapy.Spider):
     allowed_domains = ['timesofindia.indiatimes.com', 'm.timesofindia.com']
     start_urls = [
         "https://timesofindia.indiatimes.com/business/india-business",
-        "https://m.timesofindia.com/business/india-business"
+        "https://m.timesofindia.com/business/india-business", 
+        "https://timesofindia.indiatimes.com/business/infrastructure" ,
     ]
     
     # custom_settings = {
@@ -124,16 +125,37 @@ class TimesOfIndiaSpider(scrapy.Spider):
         )
         
         # Extract article body/content
-        content_selectors = [ 'div.ga-headlines .Normal', 'div[data-articlebody]', '.okf2Z .bEqpj', '.article_content', 'div.Normal','.content']
+        content_selectors = [ 'div.ga-headlines .Normal', 'div[data-articlebody]', '.okf2Z .bEqpj', '.article_content', 'div.Normal','.content''div._s30J clearfix',
+        'div.clearfix div',
+        'span[data-articlebody="1"]',
+        '.ga-headlines div',
+        'article div',
+        '.story-content',
+        '.article-body']
         
         content_paragraphs = []
         
         for selector in content_selectors:
-            paragraphs = response.css(f'{selector} ::text').getall()
-            if paragraphs:
+            paragraphs = response.css(f'{selector}::text').getall()
+            if paragraphs and len(' '.join(paragraphs)) > 100:  # Ensure substantial content
                 content_paragraphs = paragraphs
                 break
+    
+    # If still no content, try a broader approach
+        if not content_paragraphs:
+        # Try extracting all paragraph text
+            all_paragraphs = response.css('p::text').getall()
+            if all_paragraphs:
+            # Filter out navigation and footer content
+             filtered_paragraphs = [
+                p.strip() for p in all_paragraphs 
+                if len(p.strip()) > 20 and 
+                not any(skip in p.lower() for skip in ['subscribe', 'follow', 'share', 'advertisement'])
+            ]
+            if len(' '.join(filtered_paragraphs)) > 100:
+                content_paragraphs = filtered_paragraphs
         
+
         # Clean and join content
         content = ' '.join([p.strip() for p in content_paragraphs if p.strip()])
         
@@ -191,6 +213,6 @@ class TimesOfIndiaSpider(scrapy.Spider):
 
 
 
-        def parse_error(self, failure):
-            # Handle request failures
-            self.logger.error(f"Request failed: {failure.request.url}")
+    def parse_error(self, failure):
+        # Handle request failures
+        self.logger.error(f"Request failed: {failure.request.url}")

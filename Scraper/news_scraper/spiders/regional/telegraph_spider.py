@@ -222,10 +222,10 @@ class TelegraphSpider(scrapy.Spider):
         
 
 
-        def parse_error(self, failure):
-            # Handle request failures
-            self.logger.error(f"Request failed: {failure.request.url}")
-            
-            # Log additional failure information
-            if hasattr(failure.value, 'response'):
-                self.logger.error(f"HTTP Status: {failure.value.response.status}")
+    def parse_error(self, failure):
+        # Handle request failures
+        self.logger.error(f"Request failed: {failure.request.url}")
+        
+        # Log additional failure information
+        if hasattr(failure.value, 'response'):
+            self.logger.error(f"HTTP Status: {failure.value.response.status}")

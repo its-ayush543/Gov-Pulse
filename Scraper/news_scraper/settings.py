@@ -60,9 +60,18 @@ DOWNLOAD_DELAY = 1
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    "news_scraper.pipelines.NewsScraperPipeline": 300,
-#}
+ITEM_PIPELINES = {
+    'news_scraper.pipelines.NewsArticleValidationPipeline': 100,
+    'news_scraper.pipelines.NewsArticleCleaningPipeline': 200,
+    'news_scraper.pipelines.NewsArticleEnrichmentPipeline': 300,
+    'news_scraper.pipelines.NewsArticleQualityPipeline': 400,
+    'news_scraper.pipelines.NewsArticleDeduplicationPipeline': 500,
+    'news_scraper.pipelines.NewsArticleExportPipeline': 600,
+}
+
+#Configure logging level for pipelines
+LOG_LEVEL = 'INFO'
+
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
