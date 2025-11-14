@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 220 25% 97%;
+    --foreground: 220 15% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 15% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 15% 15%;
+
+    --primary: 225 70% 45%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 225 80% 65%;
+
+    --secondary: 220 20% 92%;
+    --secondary-foreground: 220 15% 20%;
+
+    --muted: 220 15% 94%;
+    --muted-foreground: 220 10% 45%;
+
+    --accent: 265 70% 55%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 15% 88%;
+    --input: 220 15% 88%;
+    --ring: 225 70% 45%;
+
+    --radius: 0.75rem;
+
+    /* Sentiment colors */
+    --sentiment-positive: 142 76% 36%;
+    --sentiment-negative: 0 72% 51%;
+    --sentiment-neutral: 38 92% 50%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(225 70% 45%) 0%, hsl(265 70% 55%) 100%);
+    --gradient-hero: linear-gradient(180deg, hsl(220 25% 97%) 0%, hsl(220 20% 92%) 100%);
+    
+    /* Shadows */
+    --shadow-card: 0 2px 8px -2px hsl(220 15% 15% / 0.08);
+    --shadow-card-hover: 0 8px 24px -4px hsl(220 15% 15% / 0.12);
+    --shadow-glow: 0 0 40px hsl(225 80% 65% / 0.3);
+  }
+
+  .dark {
+    --background: 220 20% 10%;
+    --foreground: 220 15% 92%;
+
+    --card: 220 18% 14%;
+    --card-foreground: 220 15% 92%;
+
+    --popover: 220 18% 14%;
+    --popover-foreground: 220 15% 92%;
+
+    --primary: 225 75% 55%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 225 80% 65%;
+
+    --secondary: 220 15% 18%;
+    --secondary-foreground: 220 15% 92%;
+
+    --muted: 220 15% 16%;
+    --muted-foreground: 220 10% 60%;
+
+    --accent: 265 70% 60%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 15% 20%;
+    --input: 220 15% 20%;
+    --ring: 225 75% 55%;
+
+    /* Sentiment colors (adjusted for dark mode) */
+    --sentiment-positive: 142 70% 45%;
+    --sentiment-negative: 0 72% 51%;
+    --sentiment-neutral: 38 92% 50%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(225 75% 55%) 0%, hsl(265 70% 60%) 100%);
+    --gradient-hero: linear-gradient(180deg, hsl(220 20% 10%) 0%, hsl(220 18% 14%) 100%);
+    
+    /* Shadows */
+    --shadow-card: 0 2px 8px -2px hsl(0 0% 0% / 0.3);
+    --shadow-card-hover: 0 8px 24px -4px hsl(0 0% 0% / 0.4);
+    --shadow-glow: 0 0 40px hsl(225 80% 65% / 0.4);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
